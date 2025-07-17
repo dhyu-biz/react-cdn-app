@@ -1,0 +1,188 @@
+/* 아임웹과 격리된 리액트 CDN 앱 스타일 */
+.react-cdn-app {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #333;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  margin: 20px 0;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.react-cdn-app .app-container {
+  padding: 30px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  min-height: 400px;
+}
+
+.react-cdn-app h1 {
+  margin: 0 0 20px 0;
+  font-size: 2.2em;
+  font-weight: 700;
+  text-align: center;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.react-cdn-app p {
+  margin: 0 0 30px 0;
+  font-size: 1.1em;
+  text-align: center;
+  opacity: 0.9;
+  line-height: 1.6;
+}
+
+.react-cdn-app .counter-section {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 25px;
+  border-radius: 10px;
+  margin-bottom: 25px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.react-cdn-app .counter-section h2 {
+  margin: 0 0 20px 0;
+  font-size: 1.5em;
+  text-align: center;
+  color: #fff;
+}
+
+.react-cdn-app .counter-btn {
+  background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  margin: 0 8px;
+  border-radius: 25px;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.react-cdn-app .counter-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.react-cdn-app .counter-btn.reset {
+  background: linear-gradient(45deg, #74b9ff, #0984e3);
+}
+
+.react-cdn-app .input-section {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 25px;
+  border-radius: 10px;
+  margin-bottom: 25px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.react-cdn-app .input-section h2 {
+  margin: 0 0 20px 0;
+  font-size: 1.5em;
+  text-align: center;
+  color: #fff;
+}
+
+.react-cdn-app .name-input {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1em;
+  background: rgba(255, 255, 255, 0.9);
+  color: #333;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+.react-cdn-app .name-input:focus {
+  outline: none;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+}
+
+.react-cdn-app .greeting {
+  margin: 15px 0 0 0;
+  font-size: 1.2em;
+  font-weight: 600;
+  text-align: center;
+  color: #fff;
+  animation: fadeIn 0.5s ease;
+}
+
+.react-cdn-app .info-section {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 25px;
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.react-cdn-app .info-section h3 {
+  margin: 0 0 15px 0;
+  font-size: 1.3em;
+  text-align: center;
+  color: #fff;
+}
+
+.react-cdn-app .info-section ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.react-cdn-app .info-section li {
+  padding: 8px 0;
+  font-size: 0.95em;
+  color: rgba(255, 255, 255, 0.9);
+  position: relative;
+  padding-left: 20px;
+}
+
+.react-cdn-app .info-section li:before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: #00b894;
+  font-weight: bold;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .react-cdn-app .app-container {
+    padding: 20px;
+  }
+  
+  .react-cdn-app h1 {
+    font-size: 1.8em;
+  }
+  
+  .react-cdn-app .counter-btn {
+    display: block;
+    width: 100%;
+    margin: 8px 0;
+  }
+}
+

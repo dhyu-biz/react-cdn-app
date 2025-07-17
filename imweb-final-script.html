@@ -1,0 +1,68 @@
+<!-- 아임웹에서 사용할 최종 스크립트 코드 -->
+
+<!-- 1. HTML에 추가할 코드 (아임웹 HTML 편집기에서) -->
+<div id="react-cdn-app-container" style="margin: 40px 0; min-height: 400px;"></div>
+
+<!-- 2. 아임웹 스크립트 편집기에 추가할 코드 -->
+<script>
+// React CDN 로드
+function loadScript(src) {
+    return new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = src;
+        script.crossOrigin = 'anonymous';
+        script.onload = resolve;
+        script.onerror = reject;
+        document.head.appendChild(script);
+    });
+}
+
+function loadCSS(href) {
+    return new Promise((resolve) => {
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = href;
+        link.onload = resolve;
+        document.head.appendChild(link);
+    });
+}
+
+// 리액트 앱 로드 및 마운트
+async function loadReactApp() {
+    try {
+        console.log('리액트 CDN 앱 로딩 시작...');
+        
+        // React와 ReactDOM 로드
+        await loadScript('https://unpkg.com/react@18/umd/react.production.min.js');
+        console.log('React 로드 완료');
+        
+        await loadScript('https://unpkg.com/react-dom@18/umd/react-dom.production.min.js');
+        console.log('ReactDOM 로드 완료');
+        
+        // 리액트 앱 CSS 로드 (jsDelivr CDN)
+        await loadCSS('https://cdn.jsdelivr.net/gh/dhyu-biz/react-cdn-app@main/dist/react-cdn-app.css');
+        console.log('CSS 로드 완료');
+        
+        // 리액트 앱 JavaScript 로드 (jsDelivr CDN)
+        await loadScript('https://cdn.jsdelivr.net/gh/dhyu-biz/react-cdn-app@main/dist/react-cdn-app.umd.cjs');
+        console.log('JavaScript 로드 완료');
+        
+        // 앱 마운트
+        if (window.ReactCDNApp) {
+            window.ReactCDNApp.mount('react-cdn-app-container');
+            console.log('리액트 앱 마운트 완료!');
+        } else {
+            console.error('ReactCDNApp이 로드되지 않았습니다.');
+        }
+    } catch (error) {
+        console.error('리액트 앱 로드 중 오류:', error);
+    }
+}
+
+// 페이지 로드 완료 후 앱 로드
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadReactApp);
+} else {
+    loadReactApp();
+}
+</script> 

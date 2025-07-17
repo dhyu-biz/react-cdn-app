@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jsDelivr CDN 테스트</title>
+    
+    <!-- 리액트 CDN 앱 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/dhyu-biz/react-cdn-app@main/dist/react-cdn-app.css">
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .loading {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        
+        .debug {
+            background: #e2e3e5;
+            color: #383d41;
+            border: 1px solid #d6d8db;
+            font-family: monospace;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>jsDelivr CDN 테스트</h1>
+        <div id="status-container"></div>
+        
+        <!-- 리액트 앱이 마운트될 컨테이너 -->
+        <div id="react-cdn-app-container" style="margin: 40px 0; min-height: 400px;"></div>
+    </div>
+    
+    <!-- 테스트 스크립트 -->
+    <script>
+        const statusContainer = document.getElementById('status-container');
+        
+        function addStatus(message, type = 'loading') {
+            const div = document.createElement('div');
+            div.className = `status ${type}`;
+            div.textContent = message;
+            statusContainer.appendChild(div);
+            console.log(`[${type.toUpperCase()}] ${message}`);
+        }
+        
+        function addDebug(message) {
+            const div = document.createElement('div');
+            div.className = 'status debug';
+            div.textContent = message;
+            statusContainer.appendChild(div);
+            console.log(`[DEBUG] ${message}`);
+        }
+        
+        // React와 ReactDOM 로드 확인
+        function checkReact() {
+            if (window.React && window.ReactDOM) {
+                addStatus('✅ React와 ReactDOM 로드 완료', 'success');
+                addDebug(`React 버전: ${window.React.version}`);
+                addDebug(`ReactDOM 버전: ${window.ReactDOM.version}`);
+                return true;
+            } else {
+                addStatus('❌ React 또는 ReactDOM 로드 실패', 'error');
+                addDebug(`window.React: ${typeof window.React}`);
+                addDebug(`window.ReactDOM: ${typeof window.ReactDOM}`);
+                return false;
+            }
+        }
+        
+        // ReactCDNApp 로드 확인
+        function checkReactCDNApp() {
+            if (window.ReactCDNApp) {
+                addStatus('✅ ReactCDNApp 로드 완료', 'success');
+                addDebug(`ReactCDNApp 타입: ${typeof window.ReactCDNApp}`);
+                addDebug(`ReactCDNApp.mount: ${typeof window.ReactCDNApp.mount}`);
+                return true;
+            } else {
+                addStatus('❌ ReactCDNApp 로드 실패', 'error');
+                addDebug(`window.ReactCDNApp: ${typeof window.ReactCDNApp}`);
+                return false;
+            }
+        }
+        
+        // 앱 마운트 테스트
+        function mountApp() {
+            try {
+                if (window.ReactCDNApp) {
+                    window.ReactCDNApp.mount('react-cdn-app-container');
+                    addStatus('✅ 리액트 앱 마운트 완료!', 'success');
+                    return true;
+                } else {
+                    addStatus('❌ ReactCDNApp이 없어서 마운트 실패', 'error');
+                    return false;
+                }
+            } catch (error) {
+                addStatus(`❌ 마운트 중 오류: ${error.message}`, 'error');
+                addDebug(`오류 스택: ${error.stack}`);
+                return false;
+            }
+        }
+        
+        // 스크립트 로드 함수
+        function loadScript(src) {
+            return new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = src;
+                script.crossOrigin = 'anonymous';
+                script.onload = () => {
+                    addDebug(`스크립트 로드 완료: ${src}`);
+                    resolve();
+                };
+                script.onerror = (error) => {
+                    addDebug(`스크립트 로드 실패: ${src}`);
+                    reject(error);
+                };
+                document.head.appendChild(script);
+            });
+        }
+        
+        // React 로드 함수
+        async function loadReact() {
+            try {
+                await loadScript('https://unpkg.com/react@18/umd/react.production.min.js');
+                await loadScript('https://unpkg.com/react-dom@18/umd/react-dom.production.min.js');
+                addStatus('✅ React와 ReactDOM 로드 완료', 'success');
+                return true;
+            } catch (error) {
+                addStatus(`❌ React 로드 실패: ${error.message}`, 'error');
+                return false;
+            }
+        }
+        
+        // 페이지 로드 완료 후 테스트
+        document.addEventListener('DOMContentLoaded', async function() {
+            addStatus('🔄 페이지 로드 완료, 테스트 시작...', 'loading');
+            
+            // 1. React와 ReactDOM 로드
+            const reactLoaded = await loadReact();
+            if (!reactLoaded) return;
+            
+            // 2. ReactCDNApp 스크립트 로드
+            try {
+                await loadScript('https://cdn.jsdelivr.net/gh/dhyu-biz/react-cdn-app@main/dist/react-cdn-app.js');
+                
+                // 3. ReactCDNApp 확인 및 마운트
+                setTimeout(() => {
+                    if (checkReactCDNApp()) {
+                        setTimeout(() => {
+                            mountApp();
+                        }, 500);
+                    }
+                }, 1000);
+            } catch (error) {
+                addStatus(`❌ ReactCDNApp 스크립트 로드 실패: ${error.message}`, 'error');
+            }
+        });
+    </script>
+</body>
+</html> 

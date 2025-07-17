@@ -15,12 +15,7 @@ export default defineConfig({
       formats: ['umd']
     },
     rollupOptions: {
-      external: ['react', 'react-dom'],
       output: {
-        globals: {
-          react: 'React',
-          'react-dom': 'ReactDOM'
-        },
         assetFileNames: (assetInfo) => {
           if (assetInfo.name === 'style.css') {
             return 'react-cdn-app.css';
